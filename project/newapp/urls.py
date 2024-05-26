@@ -11,7 +11,7 @@ urlpatterns = [
    # Т.к. наше объявленное представление является классом,
    # а Django ожидает функцию, нам надо представить этот класс в виде view.
    # Для этого вызываем метод as_view.
-   path('', cache_page(60)(NewsList.as_view()), name='news_list'), #вернет функцию оборачиваемую в декоратор cache_page со временем кэширования 60 сек
+   path('', NewsList.as_view(), name='news_list'), #(убрала) вернет функцию оборачиваемую в декоратор cache_page со временем кэширования 60 сек
    path('<int:pk>/', NewsDetail.as_view(), name='news_detail'),
    path('search/', NewsSearch.as_view(), name='news_search'),
 

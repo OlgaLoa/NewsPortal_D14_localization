@@ -39,22 +39,18 @@ class NewsList(ListView):
     context_object_name = 'news_list'
     paginate_by = 10  # вот так мы можем указать количество записей на странице
 
-    def get(self, request):
-
-        models = Post.objects.all()  # МОДЕЛЬ
-
-        context = {
-            'models': models,
-            'current_time': timezone.now(),
-            'timezones': pytz.common_timezones  # добавляем в контекст все доступные часовые пояса
-        }
-
-        return HttpResponse(render(request, 'news_list.html', context))  # ШАБЛОН!!!
-
+# для дженерика исп-ем get_context_data для передачи в шаблон данных для смены часовых поясов
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet
+        context['current_time'] = timezone.now() # добавляем значения по ключам
+        context['timezones'] = pytz.common_timezones  # добавляем в контекст все доступные часовые пояса
+        return context
     #  по пост-запросу будем добавлять в сессию часовой пояс, который и будет обрабатываться написанным нами ранее middleware
     def post(self, request):
         request.session['django_timezone'] = request.POST['timezone']
-        return redirect('/')
+        return redirect(self.request.META['HTTP_REFERER'])   #возвращаемся на ту же страницу
 
 
 class NewsDetail(DetailView):
