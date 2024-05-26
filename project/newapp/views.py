@@ -154,22 +154,3 @@ def subscriptions(request):#функция, кот считает подписк
     return render(request,'subscriptions.html',{'categories': categories_with_subscriptions},)
     #Функция render() принимает объект запроса в качестве первого аргумента, имя шаблона в качестве второго аргумента и словарь в качестве необязательного третьего аргумента.
     #Она возвращает объект HttpResponse данного шаблона, отображенный в данном контексте
-
-class Index(View):
-    def get(self, request):
-        # . Translators: This message appears on the home page only
-        models = Post.objects.all()
-
-        context = {
-            'models': models,
-            # для часовых поясов:
-            'current_time': timezone.localtime(timezone.now()),
-            'timezones': pytz.common_timezones,  # добавляем в контекст все доступные часовые пояса
-        }
-
-        return HttpResponse(render(request, 'news_list', context))
-
- #  по пост-запросу будем добавлять в сессию часовой пояс, который и будет обрабатываться написанным нами ранее middleware
-    def post(self, request):
-        request.session['django_timezone'] = request.POST['timezone']
-        return redirect('/')
