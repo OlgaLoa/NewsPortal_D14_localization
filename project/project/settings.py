@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
     # локализация
     'django.middleware.locale.LocaleMiddleware',
-    'project.middlewares.TimezoneMiddleware',  # add that middleware!
+    'project.middlewares.TimezoneMiddleware',  # add that middleware из папки приложения(project)!
 
 ]
 

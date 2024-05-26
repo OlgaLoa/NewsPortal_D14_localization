@@ -9,12 +9,6 @@
 Current news
 {% endblock title %}
 
-<!-- Если сейчас больше чем 19 или же меньше 7, то выводим тёмную тему, иначе выводим светлую -->
-    <style>
-        body {background-color: {% if current_time.hour >= 10 or current_time.hour <= 7 %} darkcyan {% else %} powderblue {% endif %};}
-    </style>
-</head>
-
 <!-- В контенте на странице мы выводим все новости -->
 {% block content %}
 
@@ -51,6 +45,8 @@ Current news
 
     {{ TIME_ZONE }}
     {{ current_time|timezone:TIME_ZONE }} <!-- Отображаем время в выбранном часовом поясе  -->
+
+
 
 <!--надо внести изменения, чтобы можно было увидеть те самые данные, которые мы переводим.-->
 
@@ -98,6 +94,8 @@ Current news
        <!-- Если новостей нет, то говорим, что новостей нет -->
        <h2>No current news!</h2>
 {% endif %}
+
+
 {# Добавляем пагинацию на страницу #}
    {# Информация о предыдущих страницах #}
    {% if page_obj.has_previous %}
