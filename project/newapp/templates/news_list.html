@@ -1,12 +1,19 @@
 {% extends 'flatpages/default.html' %}
 <!--локализация-->
 {% load i18n %} <!-- Загружаем теги с переводами, без этой строки ничего не будет работать -->
+{% load tz %} <!-- не забываем загрузить тег для работы с часовыми поясами -->
 
 {% load custom_filters %}
 
 {% block title %}
 Current news
 {% endblock title %}
+
+<!-- Если сейчас больше чем 19 или же меньше 7, то выводим тёмную тему, иначе выводим светлую -->
+    <style>
+        body {background-color: {% if current_time.hour >= 10 or current_time.hour <= 7 %} darkcyan {% else %} powderblue {% endif %};}
+    </style>
+</head>
 
 <!-- В контенте на странице мы выводим все новости -->
 {% block content %}
@@ -28,6 +35,30 @@ Current news
         <input type="submit" value="set">
  </form>
 
+
+
+ {% get_current_timezone as TIME_ZONE %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <label for="timezone">Time zone:</label>
+        <select name="timezone">
+            {% for tz in timezones %}
+            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Set">
+    </form>
+
+    {{ TIME_ZONE }}
+    {{ current_time|timezone:TIME_ZONE }} <!-- Отображаем время в выбранном часовом поясе  -->
+
+<!--надо внести изменения, чтобы можно было увидеть те самые данные, которые мы переводим.-->
+
+    {% for model in models %}
+    <div class="model-class">
+        {{ model.name }}
+    </div>
+    {% endfor %}
 
 <h1>{% trans "Current news:" %}</h1>
 <h3>There is {{news_list|length}} news:</h3>

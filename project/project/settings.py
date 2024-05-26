@@ -64,8 +64,8 @@ MIDDLEWARE = [
 
     # локализация
     'django.middleware.locale.LocaleMiddleware',
+    'project.middlewares.TimezoneMiddleware',  # add that middleware!
 
-    
 ]
 
 ROOT_URLCONF = 'project.urls'

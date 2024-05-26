@@ -3,7 +3,6 @@ from .models import Category, Post
 
 # импортируем модель амдинки (вспоминаем модуль про переопределение стандартных админ-инструментов)
 from modeltranslation.admin import TranslationAdmin
-
 # для перевода
 from modeltranslation.admin import TranslationAdmin # импортируем модель админки (вспоминаем модуль про переопределение стандартных админ-инструментов)
 
@@ -28,10 +27,9 @@ class CategoryAdminTrans(TranslationAdmin):
 class PostAdminTrans(TranslationAdmin):
     model = Post
 
-admin.site.register(PostAdmin)
+admin.site.register(Post, PostAdminTrans)
+admin.site.register(Category, CategoryAdminTrans)
 
-admin.site.register(CategoryAdminTrans)
-admin.site.register(PostAdminTrans)
 
 
 
